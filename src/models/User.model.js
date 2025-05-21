@@ -1,7 +1,5 @@
-'use strict';
-
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../db.js');
+const { sequelize } = require('../db');
 
 const User = sequelize.define(
   'User',
@@ -13,11 +11,8 @@ const User = sequelize.define(
   },
   {
     tableName: 'users',
-    createdAt: false,
-    updatedAt: false,
+    timestamps: false,
   },
 );
 
-module.exports = {
-  User,
-};
+module.exports = { User };

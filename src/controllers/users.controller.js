@@ -1,20 +1,21 @@
-const serviceUsers = require('../services/usersService');
+const userService = require('../services/users.service');
 
-const get = async (req, res) => {
-  const users = await serviceUsers.getAllUsers();
+const get = async (_, res) => {
+  const users = await userService.getAllUsers();
 
-  res.status(200).send(users);
+  res.status(200).json(users);
 };
 
 const getOne = async (req, res) => {
   const { id } = req.params;
-  const user = await serviceUsers.getUserById(id);
+
+  const user = await userService.getUserById(id);
 
   if (!user) {
     return res.sendStatus(404);
   }
 
-  res.status(200).send(user);
+  res.status(200).json(user);
 };
 
 const create = async (req, res) => {
@@ -24,20 +25,20 @@ const create = async (req, res) => {
     return res.sendStatus(400);
   }
 
-  const newUser = await serviceUsers.createUser(name);
+  const newUser = await userService.createUser(name);
 
-  res.status(201).send(newUser);
+  res.status(201).json(newUser);
 };
 
 const remove = async (req, res) => {
   const { id } = req.params;
-  const user = await serviceUsers.getUserById(id);
+  const user = await userService.getUserById(id);
 
   if (!user) {
     return res.sendStatus(404);
   }
 
-  await serviceUsers.removeUser(id);
+  await userService.removeUser(id);
   res.sendStatus(204);
 };
 
@@ -49,15 +50,15 @@ const update = async (req, res) => {
     return res.sendStatus(400);
   }
 
-  const existingUser = await serviceUsers.getUserById(id);
+  const user = await userService.getUserById(id);
 
-  if (!existingUser) {
+  if (!user) {
     return res.sendStatus(404);
   }
 
-  const updatedUser = await serviceUsers.updateUser({ id, name });
+  const updated = await userService.updateUser({ id, name });
 
-  res.status(200).send(updatedUser);
+  res.status(200).json(updated);
 };
 
 module.exports = {
